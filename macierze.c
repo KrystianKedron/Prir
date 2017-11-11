@@ -7,9 +7,9 @@ omp_lock_t lock;
 
 int main() {
 
-	int N = 200;
-	int M = 300;
-	int P = 300;
+	int N = 20;
+	int M = 30;
+	int P = 30;
 	
 	int **a; 
 	a = (int)malloc(N*sizeof(int*));
@@ -77,14 +77,14 @@ int main() {
 	omp_init_lock(&lock);
 	inicjuj_czas();
 	int suma = 0;
-	// #pragma omp oarallel for schedule(static) shared(suma) 
+	//#pragma omp parallel for schedule(static) shared(suma) 
 	for (int i = 0; i < N; i++){
 		for (int j = 0; j < P; j++){
 			wynik[i][j] = 0;
 			suma = 0;
-			int my_id= omp_get_thread_num();
+			//int my_id= omp_get_thread_num();
 			//omp_set_lock(&lock);
-			#pragma omp oarallel for schedule(static) reduction(+:suma)
+			#pragma omp parallel for schedule(static) reduction(+:suma)
 			for (int k = 0; k < M; k++){
 				suma = suma + a[i][k] * b[k][j]; 
 			}
